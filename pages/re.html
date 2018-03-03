@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="../css/styles.css">
+  <title>Sondre Agledahl - Video game portfolio</title>
+</head>
+<body>
+	<div class="container-fluid">
+        <div class="container-fluid col-sm-2" id="left-side">
+            <div id="nav-menu" class="affix">
+            <ul class="nav nav-pills nav-stacked">
+                <li class="h3"><a href="../index.html">Home</a></li>
+                <li class="active h3"><a href="../index.html#my-games">My games</a></li>
+                <li class="h3"><a href="blog.html">Blog</a></li>
+                <li class="h3"><a href="CV.html">CV</a></li>
+            </ul>
+            </div>
+        </div>    
+        <div class="container-fluid col-sm-6" id="content"> 
+            <a href="../index.html"><div class="row" id="heading">
+                <h1 class="text-center">Sondre Agledahl</h1>
+                <h4 class="text-center"><small>Video game portfolio</small></h4>
+            </div></a>
+            <div class="row-fluid">
+                <img src="../images/RE_title.png" class="img-responsive center-block title-image" alt="Pokémon FireRed: Rocket Edition">
+                <h6><strong>Development time: </strong> 3 years (2014-present); Three beta versions currently released</h6>
+                <h6><strong>Development tools: </strong>Assembly language / GBA scripting tools</h6>
+                <h6><strong>Project type: </strong>Spare time solo project</h6>
+                <h6><strong>Platform: </strong>Game Boy Advance</h6>
+                <h6><strong>Download link: </strong><a href="http://bit.ly/pkmfrrocketed">bit.ly/pkmfrrocketed</a></h6>
+                
+            </div>
+            <div class="row-fluid">
+                <h3><strong>Gameplay video</strong></h3>
+            </div>
+            <div class="container-fluid media-showcase">
+            
+                <div class="container-fluid">
+                    <div class="col-sm-7">
+                        <div class="embed-responsive embed-responsive-16by9 text-center">
+                            <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/9mw3jqBskIQ" allowfullscreen></iframe>
+                        </div>
+                    </div>   
+                </div>            
+                <blockquote>A video showcase of the game published by Pokécommunity.com shortly after the game's first beta release (January 2016)</blockquote>
+                
+            <div class="row-fluid">
+                <h3><strong>Development details</strong></h3>
+            </div>
+            <blockquote><h4><strong>Written in pure and simplified ARM assembly language (THUMB instruction set) in the Pokémon FireRed engine</strong></h4></blockquote>
+            <p></p>
+            <p>Most of the game was written using the GameBoy Advance scripting tool <a href="https://github.com/Gamer2020/Unofficial_XSE"><strong>XSE</strong></a>.
+            XSE uses an instruction set that maps 1-to-1 to THUMB instructions for the GBA processor, but simplified (to commands like <em>applymovement</em> and <em>setvar</em>) based on community knowledge of the disassembled FireRed ROM.</p>
+            <p>Certain features I wanted to implement that were not present in the original FireRed, however, I had to write manually in THUMB assembly.
+            The example below is a script that extracts information about the species and level of a Trainer's Pokémon, part of a larger set of scripts used to allow the player to steal Pokémon from Trainers they battle:</p>
+            <div class="panel panel-primary autocollapse">
+                <div class="panel-heading clickable">
+                    <h3 class="panel-title">
+                        <span class="glyphicon glyphicon-edit"></span>
+                        pokesteal.asm
+                    </h3>
+                </div>
+                <div class="panel-body">
+                <pre style="font-family:Consolas;font-size:13;color:gainsboro;background:#1e1e1e;">.text
+.align&nbsp;2
+.thumb
+.thumb_func
+ 
+main:
+	push&nbsp;{r0-r7,&nbsp;lr}
+	
+	ldr&nbsp;r0,&nbsp;=(0x20386AE)&nbsp;@Trainer&nbsp;ID&nbsp;of&nbsp;last&nbsp;battled&nbsp;trainer
+	ldrh&nbsp;r0,&nbsp;[r0]
+	
+	mov&nbsp;r1,&nbsp;#0x28
+	mul&nbsp;r0,&nbsp;r0,&nbsp;r1
+	
+	ldr&nbsp;r2,&nbsp;=(0x823EAE8)&nbsp;@Trainer&nbsp;table
+	add&nbsp;r2,&nbsp;r2,&nbsp;r0&nbsp;@r2&nbsp;now&nbsp;points&nbsp;to&nbsp;where&nbsp;the&nbsp;number&nbsp;of&nbsp;Pokémon&nbsp;trainer&nbsp;has&nbsp;is&nbsp;stored
+	ldrb&nbsp;r3,&nbsp;[r2]&nbsp;@r3&nbsp;now&nbsp;contains&nbsp;the&nbsp;number&nbsp;of&nbsp;Pokémon&nbsp;trainer&nbsp;has
+ 
+	ldr&nbsp;r5,&nbsp;=(0x020370D2)&nbsp;@Variable&nbsp;0x800F
+	strh&nbsp;r3,&nbsp;[r5]&nbsp;@Stores&nbsp;number&nbsp;of&nbsp;Pokémon&nbsp;trainer&nbsp;has
+	
+	add&nbsp;r2,&nbsp;#0x4
+	ldr&nbsp;r2,&nbsp;[r2]&nbsp;@r2&nbsp;now&nbsp;contains&nbsp;a&nbsp;pointer&nbsp;to&nbsp;the&nbsp;Pokémon&nbsp;information
+	add&nbsp;r2,&nbsp;#0x2&nbsp;@r2&nbsp;is&nbsp;now&nbsp;at&nbsp;level&nbsp;of&nbsp;Pkm1&nbsp;
+	
+	ldr&nbsp;r0,&nbsp;=(0x0203F4A0)&nbsp;@freespace
+	ldr&nbsp;r4,&nbsp;=(0x08245EE0)&nbsp;@Pokémon&nbsp;string&nbsp;table
+	sub&nbsp;r5,&nbsp;#0x1A&nbsp;@moves&nbsp;r5&nbsp;to&nbsp;location&nbsp;of&nbsp;var&nbsp;0x8000
+	
+	mov&nbsp;r6,&nbsp;#0x0
+	
+loop:
+@stores&nbsp;level&nbsp;of&nbsp;each&nbsp;of&nbsp;trainer&#39;s&nbsp;Pokémon&nbsp;in&nbsp;vars&nbsp;0x8000,&nbsp;-2,&nbsp;-4,&nbsp;-6,&nbsp;-8&nbsp;and&nbsp;-A
+@stores&nbsp;species&nbsp;of&nbsp;each&nbsp;of&nbsp;trainer&#39;s&nbsp;Pokémon&nbsp;in&nbsp;vars&nbsp;0x8001,&nbsp;-3,&nbsp;-5,&nbsp;-7,&nbsp;-9&nbsp;and&nbsp;-B&nbsp;
+@stores&nbsp;pointer&nbsp;to&nbsp;each&nbsp;Pokémon&#39;s&nbsp;name&nbsp;in&nbsp;the&nbsp;correct&nbsp;multichoice&nbsp;option&nbsp;location
+ 
+	ldrb&nbsp;r1,&nbsp;[r2]
+	strh&nbsp;r1,&nbsp;[r5]&nbsp;@Stores&nbsp;level&nbsp;of&nbsp;Pkm&nbsp;in&nbsp;var
+	
+	add&nbsp;r2,&nbsp;#0x2&nbsp;@r2&nbsp;is&nbsp;now&nbsp;at&nbsp;species&nbsp;of&nbsp;Pkm
+	ldrb&nbsp;r1,&nbsp;[r2]
+	add&nbsp;r5,&nbsp;#0x2&nbsp;@moves&nbsp;to&nbsp;next&nbsp;variable
+	strh&nbsp;r1,&nbsp;[r5]&nbsp;@Stores&nbsp;species&nbsp;of&nbsp;Pkm&nbsp;in&nbsp;var
+	
+	mov&nbsp;r7,&nbsp;#0xB
+	mul&nbsp;r1,&nbsp;r1,&nbsp;r7
+	add&nbsp;r1,&nbsp;r1,&nbsp;r4&nbsp;@r1&nbsp;now&nbsp;contains&nbsp;pointer&nbsp;to&nbsp;Pkm&#39;s&nbsp;name&nbsp;string
+	str&nbsp;r1,&nbsp;[r0]&nbsp;@stores&nbsp;pointer&nbsp;to&nbsp;Pkm&#39;s&nbsp;name&nbsp;in&nbsp;choice&nbsp;x
+	
+	add&nbsp;r6,&nbsp;#0x1&nbsp;@increments&nbsp;iterative
+	
+	cmp&nbsp;r6,&nbsp;r3
+	BEQ&nbsp;end&nbsp;@goes&nbsp;to&nbsp;end&nbsp;if&nbsp;loop&nbsp;has&nbsp;executed&nbsp;same&nbsp;amount&nbsp;of&nbsp;times&nbsp;as&nbsp;available&nbsp;Pokémon
+	
+	add&nbsp;r0,&nbsp;#0x8&nbsp;@moves&nbsp;to&nbsp;location&nbsp;to&nbsp;store&nbsp;string&nbsp;of&nbsp;next&nbsp;choice
+	add&nbsp;r2,&nbsp;#0x6&nbsp;@moves&nbsp;to&nbsp;location&nbsp;of&nbsp;next&nbsp;Pkm&#39;s&nbsp;level
+	add&nbsp;r5,&nbsp;#0x2&nbsp;@moves&nbsp;to&nbsp;next&nbsp;variable
+	b&nbsp;loop
+	
+end:
+	pop&nbsp;{r0-r7,&nbsp;pc}
+ 
+.align&nbsp;2	</pre>
+                </div>
+            </div>
+                
+            <div class="container-fluid">
+            <div class="row-fluid">
+                <h3><strong>Screenshots</strong></h3>
+            </div>
+                <img src="../images/RE_1.png" class="img-responsive col-sm-4">
+                <img src="../images/RE_4.png" class="img-responsive col-sm-4">
+                <img src="../images/RE_5.png" class="img-responsive col-sm-4">
+                <img src="../images/RE_6.png" class="img-responsive col-sm-4">
+                <img src="../images/RE_7.png" class="img-responsive col-sm-4">
+                <img src="../images/RE_8.png" class="img-responsive col-sm-4">
+                <img src="../images/RE_9.png" class="img-responsive col-sm-4">
+                <img src="../images/RE_10.png" class="img-responsive col-sm-4">
+                <img src="../images/RE_11.png" class="img-responsive col-sm-4">
+                <blockquote class="blockquote text-left">Screenshots from the game's third beta release (October 2017), demonstrating the game's core stealing mechanic, as well as the design of some of its new levels and elements of the story.</blockquote>
+                </div>
+            </div>  
+        </div>
+        <div class="col-sm-4" id="right-side">
+            <div id="contact">
+                <div class="row">
+                    <div class="col-sm-1"></div>
+                    <div class="col-sm-3">
+                        <a href="mailto:sondre.agledahl.16@ucl.ac.uk"><img src="../images/email.png" class="img-responsive"></a>
+                    </div>
+                <div class="col-sm-8"></div>
+                </div>
+               
+                <div class="row">
+                    <div class="col-sm-1"></div>
+                    <div class="col-sm-3">
+                        <a href="https://www.linkedin.com/in/sondre-agledahl/"><img src="../images/linkedin.png" class="img-responsive"></a>
+                    </div>
+                <div class="col-sm-8"></div>
+                </div>
+            </div>
+        </div>
+    </div>    
+    
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    
+<script>
+	$(document).on('click', '.panel div.clickable', function (e) {
+    var $this = $(this); //Heading
+    var $panel = $this.parent('.panel');
+    var $panel_body = $panel.children('.panel-body');
+    var $display = $panel_body.css('display');
+
+    if ($display == 'block') {
+        $panel_body.slideUp();
+    } else if($display == 'none') {
+        $panel_body.slideDown();
+    }
+});
+
+$(document).ready(function(e){
+    var $classy = '.panel.autocollapse';
+
+    var $found = $($classy);
+    $found.find('.panel-body').hide();
+    $found.removeClass($classy);
+});
+</script>
+
+
+</body>
+</html>
+    

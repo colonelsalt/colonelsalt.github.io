@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="../css/styles.css">
+  <title>Sondre Agledahl - Video game portfolio</title>
+</head>
+<body>
+	<div class="container-fluid">
+        <div class="container-fluid col-sm-2" id="left-side">
+            <div id="nav-menu" class="affix">
+            <ul class="nav nav-pills nav-stacked">
+                <li class="h3"><a href="../index.html">Home</a></li>
+                <li class="active h3"><a href="../index.html#my-games">My games</a></li>
+                <li class="h3"><a href="blog.html">Blog</a></li>
+                <li class="h3"><a href="CV.html">CV</a></li>
+            </ul>
+            </div>
+        </div>    
+        <div class="container-fluid col-sm-6" id="content"> 
+            <a href="../index.html"><div class="row" id="heading">
+                <h1 class="text-center">Sondre Agledahl</h1>
+                <h4 class="text-center"><small>Video game portfolio</small></h4>
+            </div></a>
+            <div class="container-fluid">
+                <div class="col-sm-2"></div>
+                <img src="../images/CB_Title.png" class="img-responsive img-rounded title-image col-sm-8" alt="Cylinder Battle">
+                <div class="col-sm-2"></div>
+            </div>    
+            <div class="container-fluid">
+                <h6><strong>Development time: </strong> 1.5 months (Dec 2017-Jan 2018)</h6>
+                <h6><strong>Development tools: </strong>Unity / C#</h6>
+                <h6><strong>Project type: </strong>Spare time solo project</h6>
+                <h6><strong>Platform: </strong>Windows, Mac OS, Linux & Web</h6>
+                <h6><strong>Download link: </strong><a href="https://colonelsalt.itch.io/cylinderbattle">https://colonelsalt.itch.io/cylinderbattle</a></h6>
+            </div>    
+            
+            <h3><strong>Gameplay video</strong></h3>
+            <div class="container-fluid">
+                <div class="col-sm-3"></div>
+                <div class="col-sm-6">
+                    <div class="embed-responsive embed-responsive-16by9 text-center">
+                        <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/AXa4AQNAorw" allowfullscreen></iframe>
+                    </div>
+                </div>
+                <div class="col-xs-3"></div>
+            </div>
+            
+            <div class="container-fluid">
+                <h3><strong>Development details</strong></h3>
+                <blockquote><h4><strong>Implemented dynamically splitting and rotating split-screen using depth shader</strong></h4></blockquote>
+                <div class="container-fluid">
+                    <img src="../images/CB_4.png" class="img-responsive col-sm-4">
+                    <img src="../images/CB_8.png" class="img-responsive col-sm-4">
+                    <img src="../images/CB_5.png" class="img-responsive col-sm-4">
+                </div>
+            <p></p>
+            <p class="first-paragraph">The game uses a "Voronoi" split-screen: Two players share a single screen when close together, but the screen dynamically splits in half (rotating according to their relative position) when they are far apart from each other.</p>
+            <p>I implemented this feature using two Unity cameras and a <a href="http://wiki.unity3d.com/index.php?title=DepthMask">DepthMask shader</a>: When the screen split is active, each camera follows a single player and both render to the screen on top of each other.
+            A quad equipped with the depth mask covers one half of the second camera so the image from the first camera renders through it, giving the appearance of a splitscreen.
+            The masked quad rotates dynamically as the players move around the scene in response to changes in their relative screen space position.</p>
+            <p>See the code sample below for implementation details:</p>
+            <div class="panel panel-primary autocollapse">
+                <div class="panel-heading clickable">
+                    <h3 class="panel-title">
+                        <span class="glyphicon glyphicon-edit"></span>
+                        CameraManager.cs
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <pre style="font-family:Consolas;font-size:13;color:gainsboro;background:#1e1e1e;"><span style="color:#569cd6;">using</span>&nbsp;System<span style="color:#b4b4b4;">.</span>Collections;
+<span style="color:#569cd6;">using</span>&nbsp;System<span style="color:#b4b4b4;">.</span>Collections<span style="color:#b4b4b4;">.</span>Generic;
+<span style="color:#569cd6;">using</span>&nbsp;UnityEngine;
+ 
+<span style="color:#57a64a;">//&nbsp;Manages&nbsp;camera&nbsp;movement;&nbsp;toggles&nbsp;between&nbsp;midpoint-centred&nbsp;single&nbsp;camera&nbsp;and&nbsp;dynamically&nbsp;rotating&nbsp;split-screen&nbsp;(Voronoi)&nbsp;using&nbsp;shader&nbsp;mask</span>
+<span style="color:#569cd6;">public</span>&nbsp;<span style="color:#569cd6;">class</span>&nbsp;<span style="color:#4ec9b0;">CameraManager</span>&nbsp;:&nbsp;<span style="color:#4ec9b0;">MonoBehaviour</span>
+{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#57a64a;">//&nbsp;--------------------------------------------------------------</span>
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#57a64a;">//&nbsp;How&nbsp;far&nbsp;apart&nbsp;Players&nbsp;have&nbsp;to&nbsp;be&nbsp;(from&nbsp;midpoint)&nbsp;for&nbsp;split&nbsp;screen&nbsp;to&nbsp;activate</span>
+&nbsp;&nbsp;&nbsp;&nbsp;[<span style="color:#4ec9b0;">SerializeField</span>]&nbsp;<span style="color:#569cd6;">private</span>&nbsp;<span style="color:#569cd6;">float</span>&nbsp;m_SplitDistance&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;<span style="color:#b5cea8;">9f</span>;
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#57a64a;">//&nbsp;Distance&nbsp;to&nbsp;maintain&nbsp;between&nbsp;Players&nbsp;and&nbsp;each&nbsp;camera</span>
+&nbsp;&nbsp;&nbsp;&nbsp;[<span style="color:#4ec9b0;">SerializeField</span>]&nbsp;<span style="color:#569cd6;">private</span>&nbsp;<span style="color:#569cd6;">float</span>&nbsp;m_CameraDistance&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;<span style="color:#b5cea8;">20f</span>;
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#57a64a;">//&nbsp;Distance&nbsp;in&nbsp;front&nbsp;of&nbsp;secondary&nbsp;camera&nbsp;to&nbsp;place&nbsp;render&nbsp;mask</span>
+&nbsp;&nbsp;&nbsp;&nbsp;[<span style="color:#4ec9b0;">SerializeField</span>]&nbsp;<span style="color:#569cd6;">private</span>&nbsp;<span style="color:#569cd6;">float</span>&nbsp;m_MaskOffset;
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#57a64a;">//&nbsp;Mask&nbsp;to&nbsp;place&nbsp;in&nbsp;front&nbsp;of&nbsp;secondary&nbsp;camera&nbsp;to&nbsp;display&nbsp;primary&nbsp;camera&nbsp;feed&nbsp;through</span>
+&nbsp;&nbsp;&nbsp;&nbsp;[<span style="color:#4ec9b0;">SerializeField</span>]&nbsp;<span style="color:#569cd6;">private</span>&nbsp;<span style="color:#4ec9b0;">GameObject</span>&nbsp;m_SplitScreenMask;
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#57a64a;">//&nbsp;Follows&nbsp;both&nbsp;Players&nbsp;when&nbsp;in&nbsp;range;&nbsp;Player&nbsp;1&nbsp;when&nbsp;split&nbsp;screen&nbsp;active</span>
+&nbsp;&nbsp;&nbsp;&nbsp;[<span style="color:#4ec9b0;">SerializeField</span>]&nbsp;<span style="color:#569cd6;">private</span>&nbsp;<span style="color:#4ec9b0;">Camera</span>&nbsp;m_PrimaryCamera;
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#57a64a;">//&nbsp;Deactivated&nbsp;when&nbsp;both&nbsp;Players&nbsp;in&nbsp;range;&nbsp;follows&nbsp;Player&nbsp;2&nbsp;when&nbsp;split&nbsp;screen&nbsp;active</span>
+&nbsp;&nbsp;&nbsp;&nbsp;[<span style="color:#4ec9b0;">SerializeField</span>]&nbsp;<span style="color:#569cd6;">private</span>&nbsp;<span style="color:#4ec9b0;">Camera</span>&nbsp;m_SecondaryCamera;
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#57a64a;">//&nbsp;References&nbsp;to&nbsp;Player&nbsp;Transforms&nbsp;to&nbsp;track&nbsp;positions</span>
+&nbsp;&nbsp;&nbsp;&nbsp;[<span style="color:#4ec9b0;">SerializeField</span>]&nbsp;<span style="color:#569cd6;">private</span>&nbsp;<span style="color:#4ec9b0;">Transform</span>&nbsp;m_Player1;
+&nbsp;&nbsp;&nbsp;&nbsp;[<span style="color:#4ec9b0;">SerializeField</span>]&nbsp;<span style="color:#569cd6;">private</span>&nbsp;<span style="color:#4ec9b0;">Transform</span>&nbsp;m_Player2;
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#57a64a;">//&nbsp;--------------------------------------------------------------</span>
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#57a64a;">//&nbsp;Midpoint&nbsp;between&nbsp;Players</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">private</span>&nbsp;<span style="color:#4ec9b0;">Vector3</span>&nbsp;m_Midpoint;
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#57a64a;">//&nbsp;Offset&nbsp;from&nbsp;Player&nbsp;to&nbsp;place&nbsp;camera&nbsp;to&nbsp;allow&nbsp;room&nbsp;for&nbsp;both&nbsp;screens</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">private</span>&nbsp;<span style="color:#4ec9b0;">Vector3</span>&nbsp;m_CameraOffset;
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#57a64a;">//&nbsp;Whether&nbsp;split&nbsp;screen&nbsp;is&nbsp;currently&nbsp;active</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">private</span>&nbsp;<span style="color:#569cd6;">bool</span>&nbsp;m_SplitScreenActive&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;<span style="color:#569cd6;">false</span>;
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#57a64a;">//&nbsp;--------------------------------------------------------------</span>
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">private</span>&nbsp;<span style="color:#569cd6;">void</span>&nbsp;<span style="color:#569cd6;">Awake</span>()
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m_SecondaryCamera<span style="color:#b4b4b4;">.</span>enabled&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;<span style="color:#569cd6;">false</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">private</span>&nbsp;<span style="color:#569cd6;">void</span>&nbsp;<span style="color:#569cd6;">LateUpdate</span>()
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m_Midpoint&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;(m_Player1<span style="color:#b4b4b4;">.</span>position&nbsp;<span style="color:#b4b4b4;">+</span>&nbsp;m_Player2<span style="color:#b4b4b4;">.</span>position)&nbsp;<span style="color:#b4b4b4;">/</span>&nbsp;<span style="color:#b5cea8;">2f</span>;
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#57a64a;">//&nbsp;Check&nbsp;if&nbsp;Players&nbsp;are&nbsp;far&nbsp;enough&nbsp;apart&nbsp;to&nbsp;split&nbsp;screen</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">float</span>&nbsp;distanceFromMiddle&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;<span style="color:#4ec9b0;">Vector3</span><span style="color:#b4b4b4;">.</span>Distance(m_Midpoint,&nbsp;m_Player1<span style="color:#b4b4b4;">.</span>position);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">if</span>&nbsp;(<span style="color:#b4b4b4;">!</span>m_SplitScreenActive&nbsp;<span style="color:#b4b4b4;">&amp;&amp;</span>&nbsp;distanceFromMiddle&nbsp;<span style="color:#b4b4b4;">&gt;=</span>&nbsp;m_SplitDistance)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetSplitScreenActive(<span style="color:#569cd6;">true</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">else</span>&nbsp;<span style="color:#569cd6;">if</span>&nbsp;(m_SplitScreenActive&nbsp;<span style="color:#b4b4b4;">&amp;&amp;</span>&nbsp;distanceFromMiddle&nbsp;<span style="color:#b4b4b4;">&lt;</span>&nbsp;m_SplitDistance)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetSplitScreenActive(<span style="color:#569cd6;">false</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">if</span>&nbsp;(m_SplitScreenActive)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m_CameraOffset&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;(m_Midpoint&nbsp;<span style="color:#b4b4b4;">-</span>&nbsp;m_Player1<span style="color:#b4b4b4;">.</span>position)<span style="color:#b4b4b4;">.</span>normalized&nbsp;<span style="color:#b4b4b4;">*</span>&nbsp;m_SplitDistance;
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PositionCameras();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RotateScreenMask();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">else</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#57a64a;">//&nbsp;If&nbsp;splitscreen&nbsp;not&nbsp;active,&nbsp;just&nbsp;place&nbsp;primary&nbsp;camera&nbsp;at&nbsp;midpoint</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m_PrimaryCamera<span style="color:#b4b4b4;">.</span>transform<span style="color:#b4b4b4;">.</span>position&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;m_Midpoint&nbsp;<span style="color:#b4b4b4;">-</span>&nbsp;(m_PrimaryCamera<span style="color:#b4b4b4;">.</span>transform<span style="color:#b4b4b4;">.</span>forward&nbsp;<span style="color:#b4b4b4;">*</span>&nbsp;m_CameraDistance);
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#57a64a;">//&nbsp;Update&nbsp;secondary&nbsp;camera&nbsp;position&nbsp;as&nbsp;well&nbsp;(needed&nbsp;for&nbsp;correct&nbsp;screen&nbsp;space&nbsp;coordinates&nbsp;for&nbsp;TutorialManager)</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m_SecondaryCamera<span style="color:#b4b4b4;">.</span>transform<span style="color:#b4b4b4;">.</span>position&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;m_PrimaryCamera<span style="color:#b4b4b4;">.</span>transform<span style="color:#b4b4b4;">.</span>position;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#57a64a;">//&nbsp;Activate&nbsp;or&nbsp;de-activate&nbsp;secondary&nbsp;camera&nbsp;and&nbsp;render&nbsp;mask</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">private</span>&nbsp;<span style="color:#569cd6;">void</span>&nbsp;SetSplitScreenActive(<span style="color:#569cd6;">bool</span>&nbsp;active)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m_SplitScreenActive&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;active;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m_SecondaryCamera<span style="color:#b4b4b4;">.</span>enabled&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;active;
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m_SplitScreenMask<span style="color:#b4b4b4;">.</span>SetActive(active);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+ 
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">private</span>&nbsp;<span style="color:#569cd6;">void</span>&nbsp;PositionCameras()
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m_PrimaryCamera<span style="color:#b4b4b4;">.</span>transform<span style="color:#b4b4b4;">.</span>position&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;m_Player1<span style="color:#b4b4b4;">.</span>position&nbsp;<span style="color:#b4b4b4;">+</span>&nbsp;m_CameraOffset&nbsp;<span style="color:#b4b4b4;">-</span>&nbsp;(m_PrimaryCamera<span style="color:#b4b4b4;">.</span>transform<span style="color:#b4b4b4;">.</span>forward&nbsp;<span style="color:#b4b4b4;">*</span>&nbsp;m_CameraDistance);
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#57a64a;">//&nbsp;Subtract&nbsp;because&nbsp;Player&nbsp;2&nbsp;is&nbsp;in&nbsp;opposite&nbsp;direction</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m_SecondaryCamera<span style="color:#b4b4b4;">.</span>transform<span style="color:#b4b4b4;">.</span>position&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;m_Player2<span style="color:#b4b4b4;">.</span>position&nbsp;<span style="color:#b4b4b4;">-</span>&nbsp;m_CameraOffset&nbsp;<span style="color:#b4b4b4;">-</span>&nbsp;(m_SecondaryCamera<span style="color:#b4b4b4;">.</span>transform<span style="color:#b4b4b4;">.</span>forward&nbsp;<span style="color:#b4b4b4;">*</span>&nbsp;m_CameraDistance);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">private</span>&nbsp;<span style="color:#569cd6;">void</span>&nbsp;RotateScreenMask()
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m_SplitScreenMask<span style="color:#b4b4b4;">.</span>transform<span style="color:#b4b4b4;">.</span>rotation&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;m_SecondaryCamera<span style="color:#b4b4b4;">.</span>transform<span style="color:#b4b4b4;">.</span>rotation;
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#57a64a;">//&nbsp;Perpendicular&nbsp;between&nbsp;Player&nbsp;2&#39;s&nbsp;corner&nbsp;of&nbsp;the&nbsp;screen&nbsp;and&nbsp;screen&nbsp;midpoint</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4ec9b0;">Vector3</span>&nbsp;halfScreenDiagonal&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;m_SecondaryCamera<span style="color:#b4b4b4;">.</span>WorldToScreenPoint(m_Midpoint)&nbsp;<span style="color:#b4b4b4;">-</span>&nbsp;m_SecondaryCamera<span style="color:#b4b4b4;">.</span>WorldToScreenPoint(m_Player2<span style="color:#b4b4b4;">.</span>position&nbsp;<span style="color:#b4b4b4;">+</span>&nbsp;m_CameraOffset);&nbsp;&nbsp;&nbsp;
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#57a64a;">//&nbsp;Rotate&nbsp;mask&nbsp;away&nbsp;from&nbsp;camera&nbsp;by&nbsp;angle&nbsp;(formed&nbsp;by&nbsp;diagonal&nbsp;and&nbsp;bottom&nbsp;screen&nbsp;horizontal&nbsp;line)</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m_SplitScreenMask<span style="color:#b4b4b4;">.</span>transform<span style="color:#b4b4b4;">.</span>Rotate(m_SplitScreenMask<span style="color:#b4b4b4;">.</span>transform<span style="color:#b4b4b4;">.</span>forward,&nbsp;<span style="color:#4ec9b0;">Mathf</span><span style="color:#b4b4b4;">.</span>Atan2(halfScreenDiagonal<span style="color:#b4b4b4;">.</span>y,&nbsp;halfScreenDiagonal<span style="color:#b4b4b4;">.</span>x)&nbsp;<span style="color:#b4b4b4;">*</span>&nbsp;<span style="color:#4ec9b0;">Mathf</span><span style="color:#b4b4b4;">.</span>Rad2Deg,&nbsp;<span style="color:#b8d7a3;">Space</span><span style="color:#b4b4b4;">.</span>World);
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#57a64a;">//&nbsp;Shift&nbsp;mask&nbsp;over&nbsp;by&nbsp;half&nbsp;its&nbsp;width&nbsp;so&nbsp;it&nbsp;covers&nbsp;half&nbsp;of&nbsp;secondary&nbsp;camera</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4ec9b0;">Vector3</span>&nbsp;horizontalShift&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;m_SplitScreenMask<span style="color:#b4b4b4;">.</span>transform<span style="color:#b4b4b4;">.</span>right&nbsp;<span style="color:#b4b4b4;">*</span>&nbsp;m_SplitScreenMask<span style="color:#b4b4b4;">.</span>transform<span style="color:#b4b4b4;">.</span>lossyScale<span style="color:#b4b4b4;">.</span>x&nbsp;<span style="color:#b4b4b4;">/</span>&nbsp;<span style="color:#b5cea8;">2f</span>;
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#57a64a;">//&nbsp;Place&nbsp;mask&nbsp;in&nbsp;front&nbsp;of&nbsp;camera&nbsp;+&nbsp;shift</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m_SplitScreenMask<span style="color:#b4b4b4;">.</span>transform<span style="color:#b4b4b4;">.</span>position&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;m_SecondaryCamera<span style="color:#b4b4b4;">.</span>transform<span style="color:#b4b4b4;">.</span>position&nbsp;<span style="color:#b4b4b4;">+</span>&nbsp;(m_SecondaryCamera<span style="color:#b4b4b4;">.</span>transform<span style="color:#b4b4b4;">.</span>forward&nbsp;<span style="color:#b4b4b4;">*</span>&nbsp;m_MaskOffset)&nbsp;<span style="color:#b4b4b4;">+</span>&nbsp;horizontalShift;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+ 
+}
+</pre>
+                </div>
+            </div>
+            
+            <div class="container-fluid">
+                <blockquote><h4><strong>Complete AI navigation system with different enemy behaviours</strong></h4></blockquote>
+                <img src="../images/CB_1.png" class="img-responsive col-sm-4">
+                <p></p>
+                <p>I implemented a waypoint system that works on top of Unity's navmesh to control enemies in the game. Each enemy has a dumb camera component attached and periodically checks whether a player is inside its view frustum.</p>
+                <p>When a player is in sight, the enemy temporarily stops its standard patrolling and activates its EnemyBehaviour component. These EnemyBehaviours are defined through an interface to allow for easy extensibility (two different enemy behaviours are currently defined in the game).</p> 
+            </div>
+            
+            <blockquote><h4><strong>Dynamic tutorial system and persistent achievements</strong></h4></blockquote>
+            <div class="container-fluid">
+                <img src="../images/CB_2.png" class="img-responsive col-sm-4">
+                <img src="../images/CB_3.png" class="img-responsive col-sm-4">
+                <img src="../images/CB_7.png" class="img-responsive col-sm-4">
+            </div>
+            <p></p>
+            <p>The first time the player encounters a new weapon or powerup, and on-screen tutorial prompt appears next to them. Certain actions also trigger achievements that show up as notifications and are viewable from the game's main menu.</p>
+            <p>An Observer-Listener system manages these behaviours. Seperate Tutorial and Achievement managers respond to player-triggered events and queue up appropriate screen notifications. A safe wrapper around Unity's PlayerPrefs system provides for persistent storage.</p>
+            <p></p>
+        </div>
+            
+        </div>
+        <div class="col-sm-4" id="right-side">
+            <div id="contact">
+                <div class="row">
+                    <div class="col-sm-1"></div>
+                    <div class="col-sm-3">
+                        <a href="mailto:sondre.agledahl.16@ucl.ac.uk"><img src="../images/email.png" class="img-responsive"></a>
+                    </div>
+                <div class="col-sm-8"></div>
+                </div>
+               
+                <div class="row">
+                    <div class="col-sm-1"></div>
+                    <div class="col-sm-3">
+                        <a href="https://www.linkedin.com/in/sondre-agledahl/"><img src="../images/linkedin.png" class="img-responsive"></a>
+                    </div>
+                <div class="col-sm-8"></div>
+                </div>
+            </div>
+        </div>
+    </div>    
+    
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script>
+	$(document).on('click', '.panel div.clickable', function (e) {
+    var $this = $(this); //Heading
+    var $panel = $this.parent('.panel');
+    var $panel_body = $panel.children('.panel-body');
+    var $display = $panel_body.css('display');
+
+    if ($display == 'block') {
+        $panel_body.slideUp();
+    } else if($display == 'none') {
+        $panel_body.slideDown();
+    }
+});
+
+$(document).ready(function(e){
+    var $classy = '.panel.autocollapse';
+
+    var $found = $($classy);
+    $found.find('.panel-body').hide();
+    $found.removeClass($classy);
+});
+</script>
+</body>
+</html>
+    
