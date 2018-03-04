@@ -8,20 +8,31 @@
   <link rel="stylesheet" href="../css/styles.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script type="text/javascript" src="../js/medium-pull.js"></script>
+  <script src="../js/scrollMenu.js"></script>
   <title>Sondre Agledahl - Video game portfolio</title>
 </head>
 <body>
 	<div class="container-fluid">
         <div class="container-fluid col-sm-2" id="left-side">
-            <div id="nav-menu" class="affix">
+            <nav class="navbar">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#collapseMenu">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand visible-xs" href="#">Site menu</a>
+                </div>
+                <div id="collapseMenu" class="collapse navbar-collapse" class="affix">
                     <ul class="nav nav-pills nav-stacked">
                         <li class="h3"><a href="../index.html">Home</a></li>
                         <li class="h3"><a href="../index.html#my-games">My games</a></li>
                         <li class="h3 active"><a href="#">Blog</a></li>
                         <li class="h3"><a href="CV.html">CV</a></li>
                     </ul>
-            </div>
-        </div>    
+                </div>
+            </nav>
+        </div> 
         <div class="container-fluid col-sm-6" id="content"> 
         <a href="../index.html">
             <div class="row" id="heading">
@@ -29,16 +40,12 @@
                 <h4 class="text-center"><small>Video game portfolio</small></h4>
             </div>
         </a>
-            <div class="col-container-fluid section blog" id="blog">
-                    <h2 class="text-center">Blog</h2>
-                <!---->
+            <div class="container-fluid">
+                    <h1 class="text-center page-header">Blog</h1>
                     <div class="container-fluid" id="jsonContent"></div>
-                <!-- /#blogContent-->
                 <h4 class="text-center"><a href="https://medium.com/@sondremilchagledahl">View All...<span class="fa fa-angle-double-right"></span></a></h4>
             </div>
         </div>
-            
-            
                 
         <div class="col-sm-4" id="right-side">
             <div id="contact">
@@ -61,7 +68,6 @@
         </div>
     </div>
     
-<script src="https://code.jquery.com/jquery-3.2.1.min.js"integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 </body>
 </html>

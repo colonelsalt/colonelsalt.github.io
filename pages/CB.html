@@ -6,20 +6,32 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
   <link rel="stylesheet" href="../css/styles.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="../js/scrollMenu.js"></script>
   <title>Sondre Agledahl - Video game portfolio</title>
 </head>
 <body>
 	<div class="container-fluid">
         <div class="container-fluid col-sm-2" id="left-side">
-            <div id="nav-menu" class="affix">
-            <ul class="nav nav-pills nav-stacked">
-                <li class="h3"><a href="../index.html">Home</a></li>
-                <li class="active h3"><a href="../index.html#my-games">My games</a></li>
-                <li class="h3"><a href="blog.html">Blog</a></li>
-                <li class="h3"><a href="CV.html">CV</a></li>
-            </ul>
-            </div>
-        </div>    
+            <nav class="navbar">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#collapseMenu">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand visible-xs" href="#">Site menu</a>
+                </div>
+                <div id="collapseMenu" class="collapse navbar-collapse" class="affix">
+                    <ul class="nav nav-pills nav-stacked">
+                        <li class="h3"><a href="../index.html">Home</a></li>
+                        <li class="h3 active"><a href="../index.html#my-games">My games</a></li>
+                        <li class="h3"><a href="blog.html">Blog</a></li>
+                        <li class="h3"><a href="CV.html">CV</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>   
         <div class="container-fluid col-sm-6" id="content"> 
             <a href="../index.html"><div class="row" id="heading">
                 <h1 class="text-center">Sondre Agledahl</h1>
@@ -53,9 +65,9 @@
                 <h3><strong>Development details</strong></h3>
                 <blockquote><h4><strong>Implemented dynamically splitting and rotating split-screen using depth shader</strong></h4></blockquote>
                 <div class="container-fluid">
-                    <img src="../images/CB_4.png" class="img-responsive col-sm-4">
-                    <img src="../images/CB_8.png" class="img-responsive col-sm-4">
-                    <img src="../images/CB_5.png" class="img-responsive col-sm-4">
+                    <img src="../images/CB_4.png" class="img-responsive col-sm-4 hidden-xs">
+                    <img src="../images/CB_8.png" class="img-responsive col-sm-4 limit-size">
+                    <img src="../images/CB_5.png" class="img-responsive col-sm-4 hidden-xs">
                 </div>
             <p></p>
             <p class="first-paragraph">The game uses a "Voronoi" split-screen: Two players share a single screen when close together, but the screen dynamically splits in half (rotating according to their relative position) when they are far apart from each other.</p>
@@ -194,7 +206,7 @@
             
             <div class="container-fluid">
                 <blockquote><h4><strong>Complete AI navigation system with different enemy behaviours</strong></h4></blockquote>
-                <img src="../images/CB_1.png" class="img-responsive col-sm-4">
+                <img src="../images/CB_1.png" class="img-responsive col-sm-4 limit-size">
                 <p></p>
                 <p>I implemented a waypoint system that works on top of Unity's navmesh to control enemies in the game. Each enemy has a dumb camera component attached and periodically checks whether a player is inside its view frustum.</p>
                 <p>When a player is in sight, the enemy temporarily stops its standard patrolling and activates its EnemyBehaviour component. These EnemyBehaviours are defined through an interface to allow for easy extensibility (two different enemy behaviours are currently defined in the game).</p> 
@@ -202,9 +214,9 @@
             
             <blockquote><h4><strong>Dynamic tutorial system and persistent achievements</strong></h4></blockquote>
             <div class="container-fluid">
-                <img src="../images/CB_2.png" class="img-responsive col-sm-4">
-                <img src="../images/CB_3.png" class="img-responsive col-sm-4">
-                <img src="../images/CB_7.png" class="img-responsive col-sm-4">
+                <img src="../images/CB_2.png" class="img-responsive col-sm-4 hidden-xs">
+                <img src="../images/CB_3.png" class="img-responsive col-sm-4 limit-size">
+                <img src="../images/CB_7.png" class="img-responsive col-sm-4 hidden-xs">
             </div>
             <p></p>
             <p>The first time the player encounters a new weapon or powerup, and on-screen tutorial prompt appears next to them. Certain actions also trigger achievements that show up as notifications and are viewable from the game's main menu.</p>
@@ -234,7 +246,6 @@
         </div>
     </div>    
     
-<script src="https://code.jquery.com/jquery-3.2.1.min.js"integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <script>
 	$(document).on('click', '.panel div.clickable', function (e) {

@@ -6,108 +6,122 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
   <link rel="stylesheet" href="css/styles.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="js/scrollMenu.js"></script>
   <title>Sondre Agledahl - Video game portfolio</title>
 </head>
 <body>
-	<div class="container-fluid">
-            <div class="container-fluid col-sm-2" id="left-side">
-                <div id="nav-menu" class="affix">
-                        <ul class="nav nav-pills nav-stacked">
-                            <li class="active h3"><a href="#">Home</a></li>
-                            <li class="h3"><a href="#my-games">My games</a></li>
-                            <li class="h3"><a href="pages/blog.html">Blog</a></li>
-                            <li class="h3"><a href="pages/CV.html">CV</a></li>
-                        </ul>
+	<div class="container-fluid">   
+        <div class="container-fluid col-sm-2" id="left-side">
+            <nav class="navbar">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#collapseMenu">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand visible-xs" href="#">Site menu</a>
                 </div>
-            </div>    
-            <div class="container-fluid col-sm-6" id="content"> 
-            <a href="#"><div class="row" id="heading">
-                <h1 class="text-center">Sondre Agledahl</h1>
-                <h4 class="text-center"><small>Video game portfolio</small></h4>
-            </div></a>
-            <div class="row">
-                <div class="container-fluid col-sm-2">
-                    <img src="images/me.png" class="img-responsive img-rounded">
+                <div id="collapseMenu" class="collapse navbar-collapse" class="affix">
+                    <ul class="nav nav-pills nav-stacked">
+                        <li class="h3 active"><a href="#">Home</a></li>
+                        <li class="h3"><a href="#my-games">My games</a></li>
+                        <li class="h3"><a href="pages/blog.html">Blog</a></li>
+                        <li class="h3"><a href="pages/CV.html">CV</a></li>
+                    </ul>
                 </div>
-                <div class="container col-sm-10">
-                    <p></p>
-                    <p><strong>Games programmer</strong>, particularly fond of and experienced in <strong>Unity</strong> and, but with strong skills in lower-level languages (<strong>C, C++</strong> and assembly language) as well.</p>
-                    <p>MEng Computer Science student at University College London and Microsoft Student Partner. Reach out to me about anything games-related via <a href="mailto:sondre.agledahl.16@ucl.ac.uk"><strong>email</strong></a>, <a href="https://www.linkedin.com/in/sondre-agledahl/"><strong>LinkedIn</strong></a>, or wherever you can find me.</p>
-                </div>
-            </div>    
-            <div class="row-fluid" id="my-games">
-                <h2 class="text-center page-header">Games showcase</h3>
+            </nav>
+        </div>
+        <div class="container-fluid col-sm-6" id="content"> 
+        <a href="#"><div class="row" id="heading">
+            <h1 class="text-center">Sondre Agledahl</h1>
+            <h4 class="text-center"><small>Video game portfolio</small></h4>
+        </div></a>
+        <div class="row">
+            <div class="col-xs-4 visible-xs"></div>
+            <div class="container-fluid col-sm-2 col-xs-3">
+                <img src="images/me.png" class="img-responsive img-rounded">
             </div>
-            <a href="pages/CB.html"><div class="container-fluid game-container col-xs-12">
-                <h4 class="display-3"><strong>Cylinder Battle</strong></h4>
-                <p class="text-left"><small>Unity | Platformer / Action</small></p>
-                <div class="row">
-                    <div class="col-sm-4"><img src="images/CB_0.png" class="img-responsive img-rounded center-block"></div>
-                    <div class="col-sm-4 hidden-xs"><img src="images/CB_1.png" class="img-responsive img-rounded center-block"></div>
-                    <div class="col-sm-4 hidden-xs"><img src="images/CB_3.png" class="img-responsive img-rounded center-block"></div>
-                </div>
-                <div class="container-fluid">
-                    <ul>
-                        <li>Solo programming project for the 2018 Sumo Digital Rising Star competition</li>
-                        <li>Implemented <strong>dynamically splitting and rotating split-screen</strong> using depth shader</li>
-                        <li>Complete <strong>AI navigation</strong> system with different enemy behaviours</li>
-                        <li>Dynamic tutorial system and persistent <strong>achievements</strong></li>
-                        <li>Highly modular, event-driven codebase</li>
-                    </ul>
-                </div>
-            </div></a>   
-            <a href="pages/re.html"><div class="container-fluid game-container col-xs-12">
-                <h4 class="display-3"><strong>Pokémon FireRed: Rocket Edition</strong></h4>
-                <p class="text-left"><small>Game Boy Advance ROM Hack | RPG</small></p>
-                <div class="row">
-                    <div class="col-sm-4"><img src="images/RE_1.png" class="img-responsive img-rounded center-block"></div>
-                    <div class="col-sm-4 hidden-xs"><img src="images/RE_2.png" class="img-responsive img-rounded center-block"></div>
-                    <div class="col-sm-4 hidden-xs"><img src="images/RE_3.png" class="img-responsive img-rounded center-block"></div>
-                </div>
-                <div class="container-fluid">
-                    <ul>
-                        <li>Solo spare time project - programming, level design and writing</li>
-                        <li>Written in pure and simplified <strong>ARM assembly language</strong> (THUMB instruction set) in the Pokémon FireRed engine</li>
-                        <li>Awarded <strong>Hack of the Month March 2016</strong> and <strong>Best Progressing Hack of 2016</strong> at the Pokécommunity forums</li>
-                        <li>Featuring 5-6 hours of gameplay, including branching sidequests and a morality system</li>
-                    </ul>
-                </div>
-            </div></a>    
-            <a href="pages/SH.html"><div class="container-fluid game-container col-xs-12">
-                <h4 class="display-3"><strong>Sweet Halloween</strong></h4>
-                <p class="text-left"><small>Unity | Puzzle </small></p>
-                <div class="row">
-                    <div class="col-sm-4"><img src="images/SH_1.png" class="img-responsive img-rounded center-block"></div>
-                    <div class="col-sm-4 hidden-xs"><img src="images/SH_2.png" class="img-responsive img-rounded center-block"></div>
-                    <div class="col-sm-4 hidden-xs"><img src="images/SH_3.png" class="img-responsive img-rounded center-block"></div>
-                </div>
-                <div class="container-fluid">
-                    <ul>
-                        <li><strong>Programming freelance project</strong> developed for Innotech LLC; expanded and improved upon <strong>existing C# codebase</strong></li>
-                        <li>Incorporated <strong>cross-platform in-game-purchases</strong> for powerups and extra lives</li>
-                        <li>Created new randomised daily challenge game mode with persistent state</li>
-                        <li>Developed 3 new game modes, 6 new bubble types and 1 new powerup</li>
-                        <li>Worked with <strong>Unity editor tools</strong> for making newly added features accessible to designers</li>
-                    </ul>
-                </div>
-            </div></a>
-            <a href="pages/GBA.html"><div class="container-fluid game-container col-xs-12">
-                <h4 class="display-3"><strong>Groovy Bounce Adventures</strong></h4>
-                <p class="text-left"><small>Unity | Arcade/action</small></p>
-                <div class="row">
-                    <div class="col-sm-4"><img src="images/GBA_1.png" class="img-responsive img-rounded center-block"></div>
-                    <div class="col-sm-4 hidden-xs"><img src="images/GBA_7.png" class="img-responsive img-rounded center-block"></div>
-                    <div class="col-sm-4 hidden-xs"><img src="images/GBA_11.png" class="img-responsive img-rounded center-block"></div>
-                </div>
-                <div class="container-fluid">
-                    <ul>
-                        <li>Solo programming project for the 2017 Rising Star competition</li>
-                        <li><strong>Dynamically resizing characters</strong> and a naturally scaling difficulty progression</li>
-                        <li>Four different types of powerups, each with unique gameplay mechanics</li>
-                    </ul>
-                </div>
-            </div></a>
-            </div>    
+            <div class="col-xs-5 visible-xs"></div>
+            <div class="container col-sm-10 col-xs-12">
+                <p></p>
+                <p><strong>Games programmer</strong>, particularly fond of and experienced in <strong>Unity</strong> and, but with strong skills in lower-level languages (<strong>C, C++</strong> and assembly language) as well.</p>
+                <p>MEng Computer Science student at University College London and Microsoft Student Partner. Reach out to me about anything games-related via <a href="mailto:sondre.agledahl.16@ucl.ac.uk"><strong>email</strong></a>, <a href="https://www.linkedin.com/in/sondre-agledahl/"><strong>LinkedIn</strong></a>, or wherever you can find me.</p>
+            </div>
+        </div>    
+        <div class="row-fluid" id="my-games">
+            <h2 class="text-center page-header">Games showcase</h3>
+        </div>
+        <a href="pages/CB.html"><div class="container-fluid game-container col-xs-12">
+            <h4 class="display-3"><strong>Cylinder Battle</strong></h4>
+            <p class="text-left"><small>Unity | Platformer / Action</small></p>
+            <div class="row">
+                <div class="col-sm-4"><img src="images/CB_0.png" class="img-responsive img-rounded center-block limit-size"></div>
+                <div class="col-sm-4 hidden-xs"><img src="images/CB_1.png" class="img-responsive img-rounded center-block"></div>
+                <div class="col-sm-4 hidden-xs"><img src="images/CB_3.png" class="img-responsive img-rounded center-block"></div>
+            </div>
+            <div class="container-fluid">
+                <ul>
+                    <li>Solo programming project for the 2018 Sumo Digital Rising Star competition</li>
+                    <li>Implemented <strong>dynamically splitting and rotating split-screen</strong> using depth shader</li>
+                    <li>Complete <strong>AI navigation</strong> system with different enemy behaviours</li>
+                    <li>Dynamic tutorial system and persistent <strong>achievements</strong></li>
+                    <li>Highly modular, event-driven codebase</li>
+                </ul>
+            </div>
+        </div></a>   
+        <a href="pages/re.html"><div class="container-fluid game-container col-xs-12">
+            <h4 class="display-3"><strong>Pokémon FireRed: Rocket Edition</strong></h4>
+            <p class="text-left"><small>Game Boy Advance ROM Hack | RPG</small></p>
+            <div class="row">
+                <div class="col-sm-4"><img src="images/RE_1.png" class="img-responsive img-rounded center-block"></div>
+                <div class="col-sm-4 hidden-xs"><img src="images/RE_2.png" class="img-responsive img-rounded center-block"></div>
+                <div class="col-sm-4 hidden-xs"><img src="images/RE_3.png" class="img-responsive img-rounded center-block"></div>
+            </div>
+            <div class="container-fluid">
+                <ul>
+                    <li>Solo spare time project - programming, level design and writing</li>
+                    <li>Written in pure and simplified <strong>ARM assembly language</strong> (THUMB instruction set) in the Pokémon FireRed engine</li>
+                    <li>Awarded <strong>Hack of the Month March 2016</strong> and <strong>Best Progressing Hack of 2016</strong> at the Pokécommunity forums</li>
+                    <li>Featuring 5-6 hours of gameplay, including branching sidequests and a morality system</li>
+                </ul>
+            </div>
+        </div></a>    
+        <a href="pages/SH.html"><div class="container-fluid game-container col-xs-12">
+            <h4 class="display-3"><strong>Sweet Halloween</strong></h4>
+            <p class="text-left"><small>Unity | Puzzle </small></p>
+            <div class="row">
+                <div class="col-sm-4"><img src="images/SH_1.png" class="img-responsive img-rounded center-block limit-size"></div>
+                <div class="col-sm-4 hidden-xs"><img src="images/SH_2.png" class="img-responsive img-rounded center-block"></div>
+                <div class="col-sm-4 hidden-xs"><img src="images/SH_3.png" class="img-responsive img-rounded center-block"></div>
+            </div>
+            <div class="container-fluid">
+                <ul>
+                    <li><strong>Programming freelance project</strong> developed for Innotech LLC; expanded and improved upon <strong>existing C# codebase</strong></li>
+                    <li>Incorporated <strong>cross-platform in-game-purchases</strong> for powerups and extra lives</li>
+                    <li>Created new randomised daily challenge game mode with persistent state</li>
+                    <li>Developed 3 new game modes, 6 new bubble types and 1 new powerup</li>
+                    <li>Worked with <strong>Unity editor tools</strong> for making newly added features accessible to designers</li>
+                </ul>
+            </div>
+        </div></a>
+        <a href="pages/GBA.html"><div class="container-fluid game-container col-xs-12">
+            <h4 class="display-3"><strong>Groovy Bounce Adventures</strong></h4>
+            <p class="text-left"><small>Unity | Arcade/action</small></p>
+            <div class="row">
+                <div class="col-sm-4"><img src="images/GBA_1.png" class="img-responsive img-rounded center-block limit-size"></div>
+                <div class="col-sm-4 hidden-xs"><img src="images/GBA_7.png" class="img-responsive img-rounded center-block"></div>
+                <div class="col-sm-4 hidden-xs"><img src="images/GBA_11.png" class="img-responsive img-rounded center-block"></div>
+            </div>
+            <div class="container-fluid">
+                <ul>
+                    <li>Solo programming project for the 2017 Rising Star competition</li>
+                    <li><strong>Dynamically resizing characters</strong> and a naturally scaling difficulty progression</li>
+                    <li>Four different types of powerups, each with unique gameplay mechanics</li>
+                </ul>
+            </div>
+        </div></a>
+        </div>    
         <div class="col-sm-4" id="right-side">
             <div id="contact">
                 <div class="row">
@@ -129,7 +143,6 @@
         </div>
     </div>
     
-<script src="https://code.jquery.com/jquery-3.2.1.min.js"integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 </body>
 </html>
