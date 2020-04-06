@@ -1,6 +1,11 @@
 @charset "utf-8";
 /* CSS Document */
 
+    body {
+        display:none;
+    }
+
+
     .navbar-toggle .icon-bar {
         background-color: black;
     }
@@ -8,11 +13,10 @@
     
     #left-side ul li {
         background-color: #ffb502;
-        border-radius: 0px;
     }
     
     .navbar {
-        background-color: #c5c6c9;
+        background-color: #64b3ef;
     }
     
     .limit-size {

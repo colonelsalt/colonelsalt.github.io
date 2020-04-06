@@ -7,7 +7,6 @@
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
   <link rel="stylesheet" href="../css/styles.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="../js/scrollMenu.js"></script>
   <title>Sondre Agledahl - Video game portfolio</title>
 </head>
 <body>
@@ -39,7 +38,7 @@
             </div></a>
             <div class="row-fluid">
                 <img src="../images/RE_title.png" class="img-responsive center-block title-image" alt="Pokémon FireRed: Rocket Edition">
-                <h6><strong>Development time: </strong> 3 years (2014-present); Three beta versions currently released</h6>
+                <h6><strong>Development time: </strong> 4 years (2014-present); Three beta versions currently released</h6>
                 <h6><strong>Development tools: </strong>Assembly language / GBA scripting tools</h6>
                 <h6><strong>Project type: </strong>Spare time solo project</h6>
                 <h6><strong>Platform: </strong>Game Boy Advance</h6>
@@ -54,11 +53,11 @@
                 <div class="container-fluid">
                     <div class="col-sm-7">
                         <div class="embed-responsive embed-responsive-16by9 text-center">
-                            <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/9mw3jqBskIQ" allowfullscreen></iframe>
+                            <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/pCvh3MTMgf0" allowfullscreen></iframe>
                         </div>
                     </div>   
                 </div>            
-                <blockquote>A video showcase of the game published by Pokécommunity.com shortly after the game's first beta release (January 2016)</blockquote>
+                <blockquote>Gameplay video by YouTube personality FeintAttacks highlighting the opening sections of the game.</blockquote>
                 
             <div class="row-fluid">
                 <h3><strong>Development details</strong></h3>
@@ -182,30 +181,8 @@ end:
     </div>    
     
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-    
-<script>
-	$(document).on('click', '.panel div.clickable', function (e) {
-    var $this = $(this); //Heading
-    var $panel = $this.parent('.panel');
-    var $panel_body = $panel.children('.panel-body');
-    var $display = $panel_body.css('display');
-
-    if ($display == 'block') {
-        $panel_body.slideUp();
-    } else if($display == 'none') {
-        $panel_body.slideDown();
-    }
-});
-
-$(document).ready(function(e){
-    var $classy = '.panel.autocollapse';
-
-    var $found = $($classy);
-    $found.find('.panel-body').hide();
-    $found.removeClass($classy);
-});
-</script>
-
+<script src="../js/spoilerButton.js"></script>
+<script src="../js/scrollMenu.js"></script>
 
 </body>
 </html>

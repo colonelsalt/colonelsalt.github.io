@@ -20,6 +20,7 @@ $(function() {
        }
     }
     
+    $("body").show();
     $(window).resize(adjustLayout);
 });
 

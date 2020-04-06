@@ -8,7 +8,7 @@ $(function () {
 			var output = '';
 			$.each(response.items, function (k, item) {
 				output += '<a href="' + item.link + '">' + '<div class="container-fluid game-container col-xs-12">';
-				//output += '<h4 class="date">' + item.pubDate + "</h4>";
+				output += '<h4 class="date">' + item.pubDate + "</h4>";
 				
                 output += '<h4 class="display-3"><strong>'+ item.title + '</strong></h4><div class="container-fluid">';
                 var tagIndex = item.description.indexOf('<img'); // Find where the img tag starts
@@ -31,7 +31,7 @@ $(function () {
                 output += '<p>' + trimmedString + '...</p>';
                 
 				output += '</div></div>';
-				return k < 3;
+				return k < 4;
 			});
 			$content.html(output);
 		}
