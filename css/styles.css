@@ -12,11 +12,19 @@
     
     
     #left-side ul li {
-        background-color: #ffb502;
+        background-color: #b9bbb7;
     }
     
     .navbar {
-        background-color: #64b3ef;
+        background-color: #ffffff;
+    }
+
+    .bio {
+        margin-top: 35px;
+    }
+
+    .avatar {
+        margin-bottom: 10px;
     }
     
     .limit-size {
@@ -42,7 +50,6 @@
             color: black;
             border: 2px solid;
             width: 130%;
-            border-radius: 7px;
         }
 	}
 
@@ -51,7 +58,8 @@
 }
     
 body {
-	background-image: url("../images/bg.png");
+    
+    background-color: #dadada;
 	background-repeat:repeat;
 	background-size: cover;
 	background-position: 30% 30%;
@@ -66,6 +74,7 @@ body {
 a:hover #heading {
     text-decoration: none;
     font-style: none;
+    color: black
 }
 
 .game-container {
@@ -99,7 +108,9 @@ h1 {
 #heading {
     #background-color: #58C3C2;
     margin-bottom: 5%;
+    padding-bottom: 10px;
     border-bottom: 1px solid;
+    #font-family: 'Times New Roman', Times, serif;
 }
 
 #heading h4 {
