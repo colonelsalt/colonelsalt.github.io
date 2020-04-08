@@ -24,7 +24,7 @@
                 <div id="collapseMenu" class="collapse navbar-collapse" class="affix">
                     <ul class="nav nav-pills nav-stacked">
                         <li class="h3"><a href="../index.html">Home</a></li>
-                        <li class="h3 active"><a href="../index.html#my-games">My games</a></li>
+                        <li class="h3 active"><a href="../index.html#my-games">Games</a></li>
                         <li class="h3"><a href="blog.html">MSP Blog</a></li>
                         <li class="h3"><a href="CV.html">CV</a></li>
                     </ul>
@@ -33,13 +33,12 @@
         </div>       
         <div class="container-fluid col-sm-6" id="content"> 
             <a href="../index.html"><div class="row" id="heading">
-                <h1 class="text-center">Sondre Agledahl</h1>
-                <h4 class="text-center"><small>Video game portfolio</small></h4>
+                <h2 class="text-center">Sondre Agledahl</h2>
             </div></a>
             <div class="row-fluid">
                 <img src="../images/RE_title.png" class="img-responsive center-block title-image" alt="Pokémon FireRed: Rocket Edition">
-                <h6><strong>Development time: </strong> 4 years (2014-present); Three beta versions currently released</h6>
-                <h6><strong>Development tools: </strong>Assembly language / GBA scripting tools</h6>
+                <h6><strong>Development time: </strong> 6 years (2014-2020)</h6>
+                <h6><strong>Development tools: </strong>GBA binary hacking tools / Assembly language</h6>
                 <h6><strong>Project type: </strong>Spare time solo project</h6>
                 <h6><strong>Platform: </strong>Game Boy Advance</h6>
                 <h6><strong>Download link: </strong><a href="http://bit.ly/pkmfrrocketed">bit.ly/pkmfrrocketed</a></h6>
@@ -62,10 +61,9 @@
             <div class="row-fluid">
                 <h3><strong>Development details</strong></h3>
             </div>
-            <blockquote><h4><strong>Written in pure and simplified ARM assembly language (THUMB instruction set) in the Pokémon FireRed engine</strong></h4></blockquote>
+            <blockquote><h4><strong>Written in decompiled Pokémon scripting language + ARM assembly (THUMB instruction set)</strong></h4></blockquote>
             <p></p>
-            <p>Most of the game was written using the GameBoy Advance scripting tool <a href="https://github.com/Gamer2020/Unofficial_XSE"><strong>XSE</strong></a>.
-            XSE uses an instruction set that maps 1-to-1 to THUMB instructions for the GBA processor, but simplified (to commands like <em>applymovement</em> and <em>setvar</em>) based on community knowledge of the disassembled FireRed ROM.</p>
+            <p>Most of the game was written using the GameBoy Advance scripting tool <a href="https://github.com/Gamer2020/Unofficial_XSE"><strong>XSE</strong></a>, which has decompiled the original game's scripting language (to commands like <em>applymovement</em> and <em>setvar</em>) based on community knowledge of the disassembled FireRed ROM.</p>
             <p>Certain features I wanted to implement that were not present in the original FireRed, however, I had to write manually in THUMB assembly.
             The example below is a script that extracts information about the species and level of a Trainer's Pokémon, part of a larger set of scripts used to allow the player to steal Pokémon from Trainers they battle:</p>
             <div class="panel panel-primary autocollapse">
@@ -160,23 +158,6 @@ end:
             </div>  
         </div>
         <div class="col-sm-4" id="right-side">
-            <div id="contact">
-                <div class="row">
-                    <div class="col-sm-1"></div>
-                    <div class="col-sm-3">
-                        <a href="mailto:sondre.agledahl.16@ucl.ac.uk"><img src="../images/email.png" class="img-responsive"></a>
-                    </div>
-                <div class="col-sm-8"></div>
-                </div>
-               
-                <div class="row">
-                    <div class="col-sm-1"></div>
-                    <div class="col-sm-3">
-                        <a href="https://www.linkedin.com/in/sondre-agledahl/"><img src="../images/linkedin.png" class="img-responsive"></a>
-                    </div>
-                <div class="col-sm-8"></div>
-                </div>
-            </div>
         </div>
     </div>    
     
