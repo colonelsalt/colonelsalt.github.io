@@ -1,0 +1,4 @@
+This is a Brave Rewards publisher verification file.
+
+Domain: sondre.io
+Token: 63a856c6b57908e830b69498da4bd87bee5001b9c7e5c24fd1799fec74f942a0
